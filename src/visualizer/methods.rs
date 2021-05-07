@@ -7,7 +7,7 @@ use assert_cmp::{debug_assert_op, debug_assert_op_expr};
 use itertools::izip;
 use std::{
     cmp::{max, min},
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     fmt::Display,
 };
 use zero_copy_pads::{align_left, align_right, AlignRight, PaddedColumnIter, Width};
@@ -108,12 +108,16 @@ where
         }
 
         struct Record {
-            child_counts: HashMap<usize, usize>,
+            child_indices_collections: HashMap<usize, HashSet<usize>>,
         }
 
         struct ActResult {
             relative_position: ChildPosition,
             column_index: usize,
+        }
+
+        fn indices<X>(list: &[X]) -> HashSet<usize> {
+            (0..list.len()).collect()
         }
 
         fn traverse<Name, Data, OnReachBottom, Act>(
@@ -132,8 +136,8 @@ where
                 column_index,
             } = act(tree, param.clone(), record);
             record
-                .child_counts
-                .insert(column_index, tree.children().len());
+                .child_indices_collections
+                .insert(column_index, indices(tree.children()));
             if param.remaining_depth == 0 {
                 on_reach_bottom(param, record);
                 return;
@@ -172,10 +176,12 @@ where
                     parent_column_index,
                     ..
                 } = param;
-                if let Some(count) = parent_column_index.and_then(|parent_column_index| {
-                    record.child_counts.get_mut(&parent_column_index)
+                if let Some(collection) = parent_column_index.and_then(|parent_column_index| {
+                    record
+                        .child_indices_collections
+                        .get_mut(&parent_column_index)
                 }) {
-                    *count = 0;
+                    collection.clear();
                 }
             },
             &mut |tree, param, record| {
@@ -215,18 +221,18 @@ where
                         // then the parent of the truncated node should be childless.
                         match (
                             tree_column.list[parent_column_index].as_mut(),
-                            record.child_counts.get_mut(&parent_column_index),
+                            record
+                                .child_indices_collections
+                                .get_mut(&parent_column_index),
                         ) {
-                            (Some(parent), Some(count)) => {
-                                if *count == 0 || *count == 1 {
-                                    *count = 0;
+                            (Some(parent), Some(collection)) => {
+                                collection.remove(&node_index);
+                                if collection.is_empty() {
                                     parent.skeletal_component.parenthood = Parenthood::Childless;
-                                } else {
-                                    *count -= 1;
                                 }
                             }
-                            (_, Some(count)) => {
-                                *count -= 1;
+                            (_, Some(collection)) => {
+                                collection.remove(&node_index);
                             }
                             _ => {}
                         }
@@ -256,7 +262,7 @@ where
                 ancestor_relative_positions: Vec::new(),
             },
             &mut Record {
-                child_counts: HashMap::new(),
+                child_indices_collections: HashMap::new(),
             },
         );
 

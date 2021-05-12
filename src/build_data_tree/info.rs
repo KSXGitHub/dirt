@@ -2,7 +2,7 @@ use super::Size;
 use derive_more::From;
 use smart_default::SmartDefault;
 
-/// Information to return from `get_info` of [`super::TreeBuilder`].
+/// Information to return from `get_info` of [`super::BuildDataTree`].
 #[derive(Debug, SmartDefault, From)]
 pub struct Info<Name, Data: Size> {
     /// Data associated with given `path`.

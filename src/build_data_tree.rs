@@ -7,7 +7,7 @@ use rayon::prelude::*;
 
 /// Collection of functions and starting points in order to build a [`DataTree`] with [`From`] or [`Into`].
 #[derive(Debug)]
-pub struct TreeBuilder<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>
+pub struct BuildDataTree<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>
 where
     Path: Send + Sync,
     Name: Send + Sync,
@@ -29,7 +29,7 @@ where
 }
 
 impl<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>
-    From<TreeBuilder<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>>
+    From<BuildDataTree<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>>
     for DataTree<Name, Data>
 where
     Path: Send + Sync,
@@ -40,9 +40,9 @@ where
     PostProcessChildren: Fn(&mut Vec<DataTree<Name, Data>>) + Copy + Send + Sync,
 {
     fn from(
-        builder: TreeBuilder<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>,
+        builder: BuildDataTree<Path, Name, Data, GetInfo, JoinPath, PostProcessChildren>,
     ) -> Self {
-        let TreeBuilder {
+        let BuildDataTree {
             path,
             name,
             get_info,
@@ -54,7 +54,7 @@ where
 
         let mut children: Vec<_> = children
             .into_par_iter()
-            .map(|name| TreeBuilder {
+            .map(|name| BuildDataTree {
                 path: join_path(&path, &name),
                 name,
                 get_info,

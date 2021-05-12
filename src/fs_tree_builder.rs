@@ -1,9 +1,9 @@
 use super::{
+    build_data_tree::{BuildDataTree, Info},
     data_tree::DataTree,
     os_string_display::OsStringDisplay,
     reporter::{error_report::Operation::*, ErrorReport, Event, Reporter},
     size::Size,
-    tree_builder::{Info, TreeBuilder},
 };
 use pipe_trait::Pipe;
 use std::{
@@ -47,7 +47,7 @@ where
             post_process_children,
         } = builder;
 
-        TreeBuilder::<PathBuf, OsStringDisplay, Data, _, _, PostProcessChildren> {
+        BuildDataTree::<PathBuf, OsStringDisplay, Data, _, _, PostProcessChildren> {
             name: root.file_name().map_or_else(
                 || ".".pipe(OsStringDisplay::os_string_from),
                 OsStringDisplay::os_string_from,

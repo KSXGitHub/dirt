@@ -1,9 +1,9 @@
 use build_fs_tree::{dir, file, FileSystemTree};
 use derive_more::From;
 use dirt::{
+    build_data_tree::{BuildDataTree, Info},
     data_tree::{DataTree, DataTreeReflection},
     size::MetricBytes,
-    tree_builder::{Info, TreeBuilder},
 };
 use pretty_assertions::assert_eq;
 
@@ -38,7 +38,7 @@ impl SampleTree {
     }
 
     fn tree(&self, root: &'static str) -> DataTree<SampleName, SampleData> {
-        DataTree::from(TreeBuilder {
+        DataTree::from(BuildDataTree {
             path: root.to_string(),
             name: root.to_string(),
             get_info: |path| {

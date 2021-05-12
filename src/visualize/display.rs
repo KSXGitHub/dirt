@@ -1,8 +1,8 @@
-use super::{Direction::*, Visualizer};
+use super::{Direction::*, Visualize};
 use crate::size::Size;
 use std::fmt::{Display, Error, Formatter};
 
-impl<'a, Name, Data> Display for Visualizer<'a, Name, Data>
+impl<'a, Name, Data> Display for Visualize<'a, Name, Data>
 where
     Name: Display,
     Data: Size + Into<u64>,

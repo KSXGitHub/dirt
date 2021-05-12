@@ -5,7 +5,7 @@ use crate::{
     os_string_display::OsStringDisplay,
     reporter::Reporter,
     size::Size,
-    visualizer::{ColumnWidthDistribution, Direction, Visualizer},
+    visualize::{ColumnWidthDistribution, Direction, Visualize},
 };
 use std::{fs::Metadata, iter::once, num::NonZeroUsize, path::PathBuf};
 
@@ -98,7 +98,7 @@ where
             data_tree
         };
 
-        let visualizer = Visualizer {
+        let visualizer = Visualize {
             data_tree: &data_tree,
             direction,
             column_width_distribution,

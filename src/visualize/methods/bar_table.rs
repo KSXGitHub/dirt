@@ -1,5 +1,5 @@
 use super::{NodeInfo, TreeColumnWidth, TreeRow, TreeTable};
-use crate::{size::Size, visualizer::ProportionBar};
+use crate::{size::Size, visualize::ProportionBar};
 use assert_cmp::{debug_assert_op, debug_assert_op_expr};
 use derive_more::{Deref, DerefMut};
 use std::{collections::LinkedList, fmt::Display};

@@ -9,7 +9,7 @@ use crate::{
     reporter::{ErrorOnlyReporter, ErrorReport},
     size::MetricBytes,
     size_getters::get_apparent_size,
-    visualizer::{ColumnWidthDistribution, Direction},
+    visualize::{ColumnWidthDistribution, Direction},
 };
 use structopt_utilities::StructOptUtils;
 

@@ -12,12 +12,12 @@ use node_info::*;
 use table::*;
 use tree_table::*;
 
-use super::{ColumnWidthDistribution, Visualizer};
+use super::{ColumnWidthDistribution, Visualize};
 use crate::size::Size;
 use std::{cmp::min, fmt::Display};
 use zero_copy_pads::{align_left, align_right};
 
-impl<'a, Name, Data> Visualizer<'a, Name, Data>
+impl<'a, Name, Data> Visualize<'a, Name, Data>
 where
     Name: Display,
     Data: Size + Into<u64>,

@@ -1,9 +1,7 @@
 use super::{InitialColumnWidth, InitialRow, InitialTable, Table};
 use crate::{
     size::Size,
-    visualizer::{
-        ChildPosition, Parenthood, TreeHorizontalSlice, TreeSkeletalComponent, Visualizer,
-    },
+    visualize::{ChildPosition, Parenthood, TreeHorizontalSlice, TreeSkeletalComponent, Visualize},
 };
 use assert_cmp::{debug_assert_op, debug_assert_op_expr};
 use derive_more::{Deref, DerefMut};
@@ -42,7 +40,7 @@ impl TreeColumnWidth {
 pub(super) type TreeTable<Name, NodeData> = Table<TreeRow<Name, NodeData>, TreeColumnWidth>;
 
 pub(super) fn render_tree<'a, Name, Data>(
-    visualizer: Visualizer<'a, Name, Data>,
+    visualizer: Visualize<'a, Name, Data>,
     initial_table: InitialTable<&'a Name, Data>,
     max_width: usize,
 ) -> TreeTable<&'a Name, Data>

@@ -1,5 +1,5 @@
 use super::{NodeInfo, Table, BORDER_COLUMNS, PERCENTAGE_COLUMN_MAX_WIDTH};
-use crate::{data_tree::DataTree, size::Size, visualizer::Visualizer};
+use crate::{data_tree::DataTree, size::Size, visualize::Visualize};
 use assert_cmp::debug_assert_op;
 use derive_more::{Deref, DerefMut};
 use std::{cmp::max, fmt::Display, num::NonZeroUsize};
@@ -38,7 +38,7 @@ pub(super) type InitialTable<Name, NodeData> =
     Table<InitialRow<Name, NodeData>, InitialColumnWidth>;
 
 pub(super) fn render_initial<Name, Data>(
-    visualizer: Visualizer<Name, Data>,
+    visualizer: Visualize<Name, Data>,
 ) -> InitialTable<&'_ Name, Data>
 where
     Name: Display,

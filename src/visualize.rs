@@ -17,7 +17,7 @@ use std::{fmt::Display, num::NonZeroUsize};
 
 /// Visualize a [`DataTree`].
 #[derive(Debug)]
-pub struct Visualizer<'a, Name, Data>
+pub struct Visualize<'a, Name, Data>
 where
     Name: Display,
     Data: Size,

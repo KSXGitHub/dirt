@@ -1,7 +1,7 @@
 use dirt::{
     data_tree::DataTree,
     size::{BinaryBytes, Blocks, MetricBytes, Size},
-    visualizer::{ColumnWidthDistribution, Direction, Visualizer},
+    visualize::{ColumnWidthDistribution, Direction, Visualize},
 };
 use pretty_assertions::assert_eq;
 use std::{cmp::Ordering, num::NonZeroUsize};
@@ -32,7 +32,7 @@ macro_rules! test_case {
             let column_width_distribution =
                 ColumnWidthDistribution::$column_width_function($($column_width_arguments),+);
             let max_depth = NonZeroUsize::new($max_depth).expect("non-zero max_depth");
-            let actual = Visualizer {
+            let actual = Visualize {
                 max_depth,
                 column_width_distribution,
                 data_tree: &tree,

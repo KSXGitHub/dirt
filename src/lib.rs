@@ -8,7 +8,7 @@ pub mod reporter;
 pub mod size;
 pub mod size_getters;
 pub mod tree_builder;
-pub mod visualizer;
+pub mod visualize;
 
 /// The main program.
 pub fn main() {

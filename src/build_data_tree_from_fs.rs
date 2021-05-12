@@ -13,7 +13,7 @@ use std::{
 
 /// Build a [`DataTree`] from a directory tree using [`From`] or [`Into`].
 #[derive(Debug)]
-pub struct FsTreeBuilder<Data, GetData, Report, PostProcessChildren>
+pub struct BuildDataTreeFromFilesystem<Data, GetData, Report, PostProcessChildren>
 where
     Data: Size + Send + Sync,
     GetData: Fn(&Metadata) -> Data + Sync,
@@ -31,7 +31,7 @@ where
 }
 
 impl<Data, GetData, Report, PostProcessChildren>
-    From<FsTreeBuilder<Data, GetData, Report, PostProcessChildren>>
+    From<BuildDataTreeFromFilesystem<Data, GetData, Report, PostProcessChildren>>
     for DataTree<OsStringDisplay, Data>
 where
     Data: Size + Send + Sync,
@@ -39,8 +39,10 @@ where
     Report: Reporter<Data> + Sync,
     PostProcessChildren: Fn(&mut Vec<DataTree<OsStringDisplay, Data>>) + Copy + Send + Sync,
 {
-    fn from(builder: FsTreeBuilder<Data, GetData, Report, PostProcessChildren>) -> Self {
-        let FsTreeBuilder {
+    fn from(
+        builder: BuildDataTreeFromFilesystem<Data, GetData, Report, PostProcessChildren>,
+    ) -> Self {
+        let BuildDataTreeFromFilesystem {
             root,
             get_data,
             reporter,

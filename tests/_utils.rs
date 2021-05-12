@@ -1,8 +1,8 @@
 use build_fs_tree::{dir, file, Build, MergeableFileSystemTree};
 use derive_more::{AsRef, Deref};
 use dirt::{
+    build_data_tree_from_fs::BuildDataTreeFromFilesystem,
     data_tree::{DataTree, DataTreeReflection},
-    fs_tree_builder::FsTreeBuilder,
     os_string_display::OsStringDisplay,
     reporter::ErrorOnlyReporter,
     size::Size,
@@ -142,7 +142,7 @@ where
     }
 
     let measure = |suffix: &str| {
-        FsTreeBuilder {
+        BuildDataTreeFromFilesystem {
             get_data: |metadata| size_from_metadata(metadata).into(),
             reporter: ErrorOnlyReporter::new(|error| {
                 panic!("Unexpected call to report_error: {:?}", error)

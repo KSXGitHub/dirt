@@ -1,7 +1,7 @@
 use crate::{
     args::Fraction,
+    build_data_tree_from_fs::BuildDataTreeFromFilesystem,
     data_tree::DataTree,
-    fs_tree_builder::FsTreeBuilder,
     os_string_display::OsStringDisplay,
     reporter::Reporter,
     size::Size,
@@ -58,7 +58,7 @@ where
         let mut iter = files
             .into_iter()
             .map(|root| -> DataTree<OsStringDisplay, Data> {
-                FsTreeBuilder {
+                BuildDataTreeFromFilesystem {
                     root,
                     get_data,
                     reporter,

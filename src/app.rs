@@ -5,7 +5,7 @@ pub use sub::Sub;
 use crate::{
     args::{Args, Quantity},
     data_tree::DataTree,
-    os_string_display::OsStringDisplay,
+    display_os_string::DisplayOsString,
     reporter::{ErrorOnlyReporter, ErrorReport},
     size::MetricBytes,
     size_getters::get_apparent_size,
@@ -54,7 +54,7 @@ impl App {
                 column_width_distribution: ColumnWidthDistribution::total(total_width),
                 get_data: get_apparent_size::<MetricBytes>,
                 post_process_children: |children: &mut Vec<
-                    DataTree<OsStringDisplay, MetricBytes>,
+                    DataTree<DisplayOsString, MetricBytes>,
                 >| {
                     children.sort_by(|left, right| left.data().cmp(&right.data()).reverse());
                 },

@@ -4,7 +4,7 @@ pub use _utils::*;
 use dirt::{
     build_data_tree_from_fs::BuildDataTreeFromFilesystem,
     data_tree::DataTree,
-    os_string_display::OsStringDisplay,
+    display_os_string::DisplayOsString,
     reporter::{ProgressAndErrorReporter, ProgressReport},
     size::MetricBytes,
 };
@@ -42,7 +42,7 @@ fn blocks_as_blocks() {
 fn progress_reports() {
     let workspace = SampleWorkspace::default();
     let reports = Mutex::new(BTreeSet::new());
-    DataTree::<OsStringDisplay, MetricBytes>::from(BuildDataTreeFromFilesystem {
+    DataTree::<DisplayOsString, MetricBytes>::from(BuildDataTreeFromFilesystem {
         get_data: |metadata| metadata.len().into(),
         reporter: ProgressAndErrorReporter::new(
             |progress| {

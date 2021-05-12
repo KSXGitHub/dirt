@@ -24,11 +24,11 @@ use std::{
     From,
     FromStr,
 )]
-pub struct OsStringDisplay<Inner = OsString>(pub Inner)
+pub struct DisplayOsString<Inner = OsString>(pub Inner)
 where
     Inner: AsRef<OsStr> + Debug;
 
-impl<Inner> OsStringDisplay<Inner>
+impl<Inner> DisplayOsString<Inner>
 where
     Inner: AsRef<OsStr> + Debug,
 {
@@ -45,15 +45,15 @@ where
     }
 }
 
-impl OsStringDisplay {
-    /// Create an [`OsStringDisplay`] of [`OsString`].
+impl DisplayOsString {
+    /// Create a [`DisplayOsString`] of [`OsString`].
     #[inline]
     pub fn os_string_from(source: impl Into<OsString>) -> Self {
         source.into().into()
     }
 }
 
-impl<Inner> AsRef<OsStr> for OsStringDisplay<Inner>
+impl<Inner> AsRef<OsStr> for DisplayOsString<Inner>
 where
     Inner: AsRef<OsStr> + Debug,
 {
@@ -62,7 +62,7 @@ where
     }
 }
 
-impl<Inner> Display for OsStringDisplay<Inner>
+impl<Inner> Display for DisplayOsString<Inner>
 where
     Inner: AsRef<OsStr> + Debug,
 {

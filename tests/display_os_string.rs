@@ -1,5 +1,5 @@
 #![cfg(unix)]
-use dirt::os_string_display::OsStringDisplay;
+use dirt::display_os_string::DisplayOsString;
 use pipe_trait::Pipe;
 use pretty_assertions::assert_eq;
 use std::{ffi::OsString, os::unix::ffi::OsStringExt, path::PathBuf};
@@ -9,7 +9,7 @@ fn utf8_os_str() {
     let actual = "abc"
         .pipe(OsString::from)
         .as_os_str()
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = "abc";
     assert_eq!(actual, expected);
@@ -20,7 +20,7 @@ fn non_utf8_os_str() {
     let actual = vec![0xFF, 0xDD]
         .pipe(OsString::from_vec)
         .as_os_str()
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = r#""\xFF\xDD""#;
     assert_eq!(actual, expected);
@@ -28,7 +28,7 @@ fn non_utf8_os_str() {
 
 #[test]
 fn utf8_os_string() {
-    let actual = "abc".pipe(OsString::from).pipe(OsStringDisplay).to_string();
+    let actual = "abc".pipe(OsString::from).pipe(DisplayOsString).to_string();
     let expected = "abc";
     assert_eq!(actual, expected);
 }
@@ -37,7 +37,7 @@ fn utf8_os_string() {
 fn non_utf8_os_string() {
     let actual = vec![0xFF, 0xDD]
         .pipe(OsString::from_vec)
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = r#""\xFF\xDD""#;
     assert_eq!(actual, expected);
@@ -48,7 +48,7 @@ fn utf8_path() {
     let actual = "abc"
         .pipe(PathBuf::from)
         .as_path()
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = "abc";
     assert_eq!(actual, expected);
@@ -60,7 +60,7 @@ fn non_utf8_path() {
         .pipe(OsString::from_vec)
         .pipe(PathBuf::from)
         .as_path()
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = r#""\xFF\xDD""#;
     assert_eq!(actual, expected);
@@ -68,7 +68,7 @@ fn non_utf8_path() {
 
 #[test]
 fn utf8_path_buf() {
-    let actual = "abc".pipe(PathBuf::from).pipe(OsStringDisplay).to_string();
+    let actual = "abc".pipe(PathBuf::from).pipe(DisplayOsString).to_string();
     let expected = "abc";
     assert_eq!(actual, expected);
 }
@@ -78,7 +78,7 @@ fn non_utf8_path_buf() {
     let actual = vec![0xFF, 0xDD]
         .pipe(OsString::from_vec)
         .pipe(PathBuf::from)
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = r#""\xFF\xDD""#;
     assert_eq!(actual, expected);
@@ -88,9 +88,9 @@ fn non_utf8_path_buf() {
 fn utf8_os_string_display() {
     let actual = "abc"
         .pipe(OsString::from)
-        .pipe(OsStringDisplay)
-        .pipe(OsStringDisplay)
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
+        .pipe(DisplayOsString)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = "abc";
     assert_eq!(actual, expected);
@@ -100,9 +100,9 @@ fn utf8_os_string_display() {
 fn non_utf8_os_string_display() {
     let actual = vec![0xFF, 0xDD]
         .pipe(OsString::from_vec)
-        .pipe(OsStringDisplay)
-        .pipe(OsStringDisplay)
-        .pipe(OsStringDisplay)
+        .pipe(DisplayOsString)
+        .pipe(DisplayOsString)
+        .pipe(DisplayOsString)
         .to_string();
     let expected = r#""\xFF\xDD""#;
     assert_eq!(actual, expected);

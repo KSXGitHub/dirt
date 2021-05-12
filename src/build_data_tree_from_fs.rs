@@ -1,7 +1,7 @@
 use super::{
     build_data_tree::{BuildDataTree, Info},
     data_tree::DataTree,
-    os_string_display::OsStringDisplay,
+    display_os_string::DisplayOsString,
     reporter::{error_report::Operation::*, ErrorReport, Event, Reporter},
     size::Size,
 };
@@ -18,7 +18,7 @@ where
     Data: Size + Send + Sync,
     GetData: Fn(&Metadata) -> Data + Sync,
     Report: Reporter<Data> + Sync,
-    PostProcessChildren: Fn(&mut Vec<DataTree<OsStringDisplay, Data>>) + Copy + Send + Sync,
+    PostProcessChildren: Fn(&mut Vec<DataTree<DisplayOsString, Data>>) + Copy + Send + Sync,
 {
     /// Root of the directory tree.
     pub root: PathBuf,
@@ -32,12 +32,12 @@ where
 
 impl<Data, GetData, Report, PostProcessChildren>
     From<BuildDataTreeFromFilesystem<Data, GetData, Report, PostProcessChildren>>
-    for DataTree<OsStringDisplay, Data>
+    for DataTree<DisplayOsString, Data>
 where
     Data: Size + Send + Sync,
     GetData: Fn(&Metadata) -> Data + Sync,
     Report: Reporter<Data> + Sync,
-    PostProcessChildren: Fn(&mut Vec<DataTree<OsStringDisplay, Data>>) + Copy + Send + Sync,
+    PostProcessChildren: Fn(&mut Vec<DataTree<DisplayOsString, Data>>) + Copy + Send + Sync,
 {
     fn from(
         builder: BuildDataTreeFromFilesystem<Data, GetData, Report, PostProcessChildren>,
@@ -49,10 +49,10 @@ where
             post_process_children,
         } = builder;
 
-        BuildDataTree::<PathBuf, OsStringDisplay, Data, _, _, PostProcessChildren> {
+        BuildDataTree::<PathBuf, DisplayOsString, Data, _, _, PostProcessChildren> {
             name: root.file_name().map_or_else(
-                || ".".pipe(OsStringDisplay::os_string_from),
-                OsStringDisplay::os_string_from,
+                || ".".pipe(DisplayOsString::os_string_from),
+                DisplayOsString::os_string_from,
             ),
 
             path: root,
@@ -97,7 +97,7 @@ where
                             }));
                             None
                         }
-                        Ok(entry) => entry.file_name().pipe(OsStringDisplay::from).pipe(Some),
+                        Ok(entry) => entry.file_name().pipe(DisplayOsString::from).pipe(Some),
                     })
                     .collect()
                 } else {

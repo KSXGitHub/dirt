@@ -2,7 +2,7 @@ use crate::{
     args::Fraction,
     build_data_tree_from_fs::BuildDataTreeFromFilesystem,
     data_tree::DataTree,
-    os_string_display::OsStringDisplay,
+    display_os_string::DisplayOsString,
     reporter::Reporter,
     size::Size,
     visualize::{ColumnWidthDistribution, Direction, Visualize},
@@ -15,7 +15,7 @@ where
     Data: Size + Into<u64> + Send + Sync,
     Report: Reporter<Data> + Copy + Sync,
     GetData: Fn(&Metadata) -> Data + Copy + Sync,
-    PostProcessChildren: Fn(&mut Vec<DataTree<OsStringDisplay, Data>>) + Copy + Send + Sync,
+    PostProcessChildren: Fn(&mut Vec<DataTree<DisplayOsString, Data>>) + Copy + Send + Sync,
 {
     /// List of files and/or directories.
     pub files: Vec<PathBuf>,
@@ -40,7 +40,7 @@ where
     Data: Size + Into<u64> + Send + Sync,
     Report: Reporter<Data> + Copy + Sync,
     GetData: Fn(&Metadata) -> Data + Copy + Sync,
-    PostProcessChildren: Fn(&mut Vec<DataTree<OsStringDisplay, Data>>) + Copy + Send + Sync,
+    PostProcessChildren: Fn(&mut Vec<DataTree<DisplayOsString, Data>>) + Copy + Send + Sync,
 {
     /// Run the sub program.
     pub fn run(self) {
@@ -57,7 +57,7 @@ where
 
         let mut iter = files
             .into_iter()
-            .map(|root| -> DataTree<OsStringDisplay, Data> {
+            .map(|root| -> DataTree<DisplayOsString, Data> {
                 BuildDataTreeFromFilesystem {
                     root,
                     get_data,
@@ -83,7 +83,7 @@ where
         } else {
             let children: Vec<_> = once(data_tree).chain(iter).collect();
             DataTree::dir(
-                OsStringDisplay::os_string_from("(total)"),
+                DisplayOsString::os_string_from("(total)"),
                 Data::default(),
                 children,
             )
